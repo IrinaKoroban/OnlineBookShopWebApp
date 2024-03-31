@@ -1,0 +1,57 @@
+﻿@model UserViewModel
+
+<div class="row">
+    <div class="col-2">
+        @await Html.PartialAsync("AdminMenu")
+    </div>
+
+    <div class="col-8">
+        <form method="post">
+            <div class="row justify-content-lg-start">
+                <div class="col">
+                    <br><h3>Новый пользователь</h3>
+
+                    <div class="text-danger font-weigth-bolt" asp-validation-summary="ModelOnly"></div>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <label asp-for="Email"></label>
+                            <input class="form-control col-xs-3" type="text" placeholder="Электронная почта" asp-for="Email">
+                            <span asp-validation-for="Email"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label asp-for="Name"></label>
+                            <input class="form-control col-xs-3" type="text" placeholder="ФИО" asp-for="Name">
+                            <span asp-validation-for="Name"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label asp-for="Phone"></label>
+                            <input class="form-control col-xs-3" type="text" placeholder="Телефон" asp-for="Phone">
+                            <span asp-validation-for="Phone"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <label asp-for="Password"></label>
+                            <input class="form-control" asp-for="Password" placeholder="Пароль от 5 до 25 знаков">
+                            <span asp-validation-for="Password"></span>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-outline-success" type="submit" asp-area="Admin" asp-controller="User" asp-action="Add">
+                            Добавить пользователя
+                        </button>
+                    </div>
+                    
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

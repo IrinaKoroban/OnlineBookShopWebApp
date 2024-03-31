@@ -1,0 +1,23 @@
+﻿@model UserDetailsViewModel
+
+<form method="post">
+	<div class="container">
+		<div class="row">
+			<div class="col-2">
+				@await Html.PartialAsync("UserMenu")
+			</div>
+			<div class="col-10">
+				<table class="table">
+					<tr>
+						<td>Email</td>
+						<td>@Model.Email</td>
+					</tr>
+				</table>
+
+				<div>
+					<a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="ChangePassword" asp-route-email="@Model.Email">Смена пароля</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

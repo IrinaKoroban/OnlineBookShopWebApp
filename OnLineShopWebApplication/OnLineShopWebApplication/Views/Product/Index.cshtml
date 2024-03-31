@@ -1,0 +1,32 @@
+﻿@model ProductViewModel
+
+<div class="row">
+    <div class="col-6">
+        <div class="row">
+
+            <img class="" style=" width: 100%; height: 30rem; object-fit: contain" src=@Model.ImagePath class="card-img-top" alt="Обложка книги">
+            @for (var i = 1; i < Model.Images.Length; i++)
+            {
+                <div class="col-lg-4 col-md-4 col-xl-4 thumb">
+                    <img class="" style=" width: 100%; height: 10rem; object-fit: contain" src="@Model.Images[i]" alt="Изображение товара">
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card-body">
+            <h6 class="card-title"><a class="nav-link text-secondary">@Model.Author</a></h6>
+            <h5 class="card-title">@Model.Name</h5>
+            <h5 class="card-title">@Model.Cost ₽</h5>
+            <p class="card-text">@Model.Description</p>
+            <p class="card-text">ISBN: @Model.ISBN</p>
+            <p class="card-text">Издательство: @Model.PublishingHouse</p>
+            <p class="card-text">Год издания: @Model.YearRelease</p>
+            <p class="card-text">Категория: @EnumHelper.GetDisplayName(Model.Category)</p>
+
+            <a class="btn btn-outline-success border-1" asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@Model.Id" role="button">Добавить в корзину</a>
+            <a class="btn btn-outline-secondary border-1" asp-area="" asp-controller="Home" asp-action="Index" role="button">Продолжить покупки</a>
+        </div>
+    </div>
+</div>
+

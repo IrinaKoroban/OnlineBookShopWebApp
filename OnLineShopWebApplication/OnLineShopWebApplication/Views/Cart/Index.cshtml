@@ -1,0 +1,48 @@
+﻿@model CartViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (Model == null)
+{
+    <h5>Корзина пуста</h5>
+}
+else
+{
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thread>
+                    <tr>
+                        <th>Название</th>
+                        <th>Цена, руб.</th>
+                        <th>Стоимость, руб.</th>
+                        <th colspan="3" class="text-lg-center">Изменить количество</th>
+                    </tr>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr class="text-lg-center">
+                                <td align="left">@item.Product.Name</td>
+                                <td>@item.Product.Cost руб.</td>
+                                <td>@item.Cost руб.</td>
+                                <td><a class="btn btn-outline-secondary border-1 align-content-end" asp-area="" asp-controller="Cart" asp-action="decreaseAmount" asp-route-productId="@item.Product.Id" role="button">-</a></td>
+                                <td class="text-lg-center">@item.Amount</td>
+                                <td><a class="btn btn-outline-secondary border-1 align-content-around" asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@item.Product.Id" role="button">+</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </thread>
+            </table>
+            <div class="text-dark">
+                <h4>Всего: @Model.Cost руб.</h4>
+            </div>
+            <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary">
+                <a class="btn btn-outline-secondary border-1" asp-area="" asp-controller="Home" asp-action="Index" role="button">Продолжить покупки</a>
+                <a class="btn btn-outline-success border-1 text-center" asp-area="" asp-controller="Order" asp-action="Index" role="button">Оформить заказ</a>
+                <a class="btn btn-outline-danger border-1 text-center" asp-area="" asp-controller="Cart" asp-action="Clear" role="button">Очистить корзину</a>
+            </div>
+        </div>
+    </div>
+}
+

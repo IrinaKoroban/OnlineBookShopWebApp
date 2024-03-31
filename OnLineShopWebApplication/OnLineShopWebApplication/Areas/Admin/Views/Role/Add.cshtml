@@ -1,0 +1,29 @@
+﻿@model RoleViewModel
+
+<div class="row">
+    <div class="col-2">
+        @await Html.PartialAsync("AdminMenu")
+    </div>
+
+    <div class="col-8">
+        <form method="post">
+            <div class="row justify-content-md-center">
+                <div class="col">
+                    <br><h3>Новая роль</h3>
+
+                    <div class="text-danger font-weigth-bolt" asp-validation-summary="ModelOnly"></div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Название</span>
+                        <input class="form-control" asp-for="Name" placeholder="">
+                        <br><span asp-validation-for="Name"></span>
+                    </div>
+                    
+                    <button class="btn-outline-success btn" type="submit" asp-area="Admin" asp-controller="Role" asp-action="Add">Добавить роль</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

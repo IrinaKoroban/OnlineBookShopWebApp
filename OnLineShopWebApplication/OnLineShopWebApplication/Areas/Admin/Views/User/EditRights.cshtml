@@ -1,0 +1,42 @@
+﻿@model EditRightsViewModel
+
+<div class="row">
+    <div class="col-2">
+        @await Html.PartialAsync("AdminMenu")
+    </div>
+
+    <div class="col-8">
+        <form method="post">
+            <div class="row justify-content-lg-start">
+                <div class="col">
+                    <input type="hidden" name="email" value="@Model?.Email">
+                    <br><h3>Поменять роль у пользователя @Model.Email</h3>
+
+                    @foreach (var role in @Model.AllRoles)
+                    {
+                        @if (Model.Roles.Contains(role))
+                        {
+                            <p>
+
+                                <input class="form-check-input" name="userRolesViewModel[@role.Name]" type="checkbox" value="true" checked />
+                                <label class="form-check-label fs-4" for="changeRole">@role.Name</label>
+                            </p>
+                        }
+                        else
+                        {
+                            <p>
+                                <input class="form-check-input" name="userRolesViewModel[@role.Name]" type="checkbox" value="true" />
+                                <label class="form-check-label fs-4" for="changeRole">@role.Name</label>
+                            </p>
+                        }
+                    }
+
+                    <button class="btn btn-outline-success mt-2" type="submit" asp-area="Admin" asp-controller="User" asp-action="EditRights">Поменять</button>
+                    <button class="btn-outline-secondary btn mt-2" asp-area="Admin" asp-controller="User" asp-action="Detail">Назад</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

@@ -1,0 +1,72 @@
+﻿@model AddProductViewModel
+
+<div class="row">
+    <div class="col-2">
+        @await Html.PartialAsync("AdminMenu")
+    </div>
+
+    <div class="col-8">
+        <form method="post" enctype="multipart/form-data">
+            <div class="row justify-content-md-center">
+                <div class="col">
+                    <br><h3>Новая книга</h3>
+
+                    <div class="text-danger font-weigth-bolt" asp-validation-summary="ModelOnly"></div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Название</span>
+                        <input class="form-control" asp-for="Name" placeholder="">
+                        <br><span asp-validation-for="Name"></span>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Автор</span>
+                        <input class="form-control" asp-for="Author" placeholder="">
+                        <br><span asp-validation-for="Author"></span>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Цена</span>
+                        <input type="number" class="form-control" asp-for="Cost" placeholder="">
+                        <span class="input-group-text" id="basic-addon1">руб.</span>
+                        <br><span asp-validation-for="Cost"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1">Описание</span>
+                        <textarea class="form-control" aria-label="With textarea" asp-for="Description"></textarea>
+                        <br><span asp-validation-for="Description"></span>
+                    </div>
+                    <br>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Издательство</span>
+                        <input class="form-control" asp-for="PublishingHouse" placeholder="">
+                        <br><span asp-validation-for="PublishingHouse"></span>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Год издания</span>
+                        <input class="form-control" asp-for="YearRelease" placeholder="">
+                        <br><span asp-validation-for="YearRelease"></span>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">ISBN</span>
+                        <input class="form-control" asp-for="ISBN" placeholder="">
+                        <br><span asp-validation-for="ISBN"></span>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <input  type="file" class="form-control" asp-for="UploadedFiles" multiple accept="image/*" />
+                        <label class="input-group-text" asp-for="UploadedFiles">Добавить файлы</label>
+                        <span asp-validation-for="UploadedFiles" />
+                    </div>
+
+                    <br>
+                    <button class="btn-outline-success btn" type="submit" asp-area="Admin" asp-controller="Product" asp-action="Add">Сохранить книгу</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

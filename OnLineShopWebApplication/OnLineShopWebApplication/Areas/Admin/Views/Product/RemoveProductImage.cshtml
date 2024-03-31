@@ -1,0 +1,36 @@
+﻿@model RemoveImageViewModel
+
+<div class="row">
+    <div class="col-2">
+        @await Html.PartialAsync("AdminMenu")
+    </div>
+
+    <div class="col-10">
+
+        <input type="hidden" name="Id" value="@Model.ProductId">
+        <table class="table">
+            <thread>
+                <tr>
+                    <th>№</th>
+                    <th>Изображение</th>
+                    <th>Удаление</th>
+                </tr>
+            </thread>
+
+            <tbody>
+                @for (var i = 1; i < Model.ImagesPaths.Length; i++)
+                {
+                    <tr>
+                        <td>@(i + 1)</td>
+                        <td>
+                            <img src="@Model.ImagesPaths[i]" class="img" style=" width: 100%; height: 3rem; object-fit: contain;" alt="Обложка"></img>
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-warning" asp-area="Admin" asp-asp-controller="Product" asp-action="RemoveImage" asp-route-imagePath="@Model.ImagesPaths[i]">Удалить</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
