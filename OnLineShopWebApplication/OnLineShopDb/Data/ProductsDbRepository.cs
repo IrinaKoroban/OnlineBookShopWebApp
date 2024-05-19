@@ -15,11 +15,11 @@ namespace OnLineShop.Db.Data
         }
         public async Task<List<Product>> GetAllAsync()
         {
-            return await databaseContext.Products.Include(x=> x.Images).ToListAsync();
+            return await databaseContext.Products.Include(x => x.Images).ToListAsync();
         }
         public async Task<List<Product>> TryGetByNameAsync(string productName)
         {
-            return await databaseContext.Products.Where(product => product.Name.ToLower().Contains(productName.ToLower()))?.ToListAsync();
+            return await databaseContext.Products.Include(p => p.Images).Where(product => product.Name.ToLower().Contains(productName.ToLower()))?.ToListAsync();
         }
         public async Task<Product> TryGetByIdAsync(Guid id)
         {
@@ -66,6 +66,21 @@ namespace OnLineShop.Db.Data
         {
             var product = await TryGetByIdAsync(Id);
             product.IsDeleted = false;
+            await databaseContext.SaveChangesAsync();
+        }
+
+        public async Task AddAmountAsync(Guid Id)
+        {
+            var product = await TryGetByIdAsync(Id);
+            product.Amount++;
+            await databaseContext.SaveChangesAsync();
+        }
+        public async Task ReduceAmountAsync(Guid Id)
+        {
+            var product = await TryGetByIdAsync(Id);
+            if (product.Amount == 0)
+                return;
+            product.Amount--;
             await databaseContext.SaveChangesAsync();
         }
     }

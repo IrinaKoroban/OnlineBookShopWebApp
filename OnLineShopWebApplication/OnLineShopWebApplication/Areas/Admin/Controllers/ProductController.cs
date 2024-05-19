@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnLineShop.Db;
+using OnLineShop.Db.Data;
 using OnLineShop.Db.Interfaces;
 using OnLineShop.Db.Models;
 using OnLineShopWebApplication.Areas.Admin.Models;
@@ -108,5 +109,25 @@ namespace OnLineShopWebApplication.Areas.Admin.Controllers
         //}
 
 
-	}
+        public async Task<IActionResult> AddAmountAsync()
+        {
+            var products = await productsRepository.GetAllAsync();
+            var productsViewModel = mapper.Map<List<ProductViewModel>>(products);
+            return View(productsViewModel);
+        }
+
+        public async Task<IActionResult> AddAmount2Async(Guid productId)
+        {
+            await productsRepository.AddAmountAsync(productId);
+            return RedirectToAction(nameof(AddAmountAsync));
+        }
+
+        public async Task<IActionResult> ReduceAmountAsync(Guid productId)
+        {
+            await productsRepository.ReduceAmountAsync(productId);
+            return RedirectToAction(nameof(AddAmountAsync));
+        }
+
+
+    }
 }

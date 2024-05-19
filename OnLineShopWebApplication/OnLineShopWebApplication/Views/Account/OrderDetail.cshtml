@@ -1,47 +1,47 @@
 ﻿@model OrderViewModel
 
 <div class="container">
-	<div class="row">
-		<div class="col-2">
-			@await Html.PartialAsync("UserMenu")
-		</div>
+    <div class="row">
+        <div class="col-2">
+            @await Html.PartialAsync("UserMenu")
+        </div>
 
-		<div class="col-10">
-			<h3>Детали заказа:</h3>
-			<div>
-				<p class="card-title"> ФИО покупателя: @Model.Name</p>
-				<p class="card-title">Статус заказа: <div class="text-success">@EnumHelper.GetDisplayName(Model.Status)</div> </p>
-				<p class="card-text"> Адрес: @Model.Address</p>
-				<p class="card-text">Телефон: @Model.Phone</p>
-				<p class="card-text">Email: @Model.UserEmail</p>
-			</div>
-			<div>
-				<table class="table">
-					<thread>
-						<tr>
-							<th>№</th>
-							<th>Продукт</th>
-							<th>Количество</th>
-							<th>Стоимость одного товара, ₽</th>
-							<th>Сумма, ₽</th>
+        <div class="col-10">
+            <h3>Детали заказа:</h3>
+            <div>
+                <p class="card-title"> ФИО покупателя: @Model.UserDeliveryData.Name</p>
+                <p class="card-title">Статус заказа: <div class="text-success">@EnumHelper.GetDisplayName(Model.Status)</div> </p>
+                <p class="card-text"> Адрес: @Model.UserDeliveryData.Address</p>
+                <p class="card-text">Телефон: @Model.UserDeliveryData.Phone</p>
+                <p class="card-text">Email: @Model.UserDeliveryData.Email</p>
+            </div>
+            <div>
+                <table class="table">
+                    <thread>
+                        <tr>
+                            <th>№</th>
+                            <th>Продукт</th>
+                            <th>Количество</th>
+                            <th>Стоимость одного товара, ₽</th>
+                            <th>Сумма, ₽</th>
 
-						</tr>
-						<tbody>
-							@for(var i = 0; i< Model.Items.Count; i++)
+                        </tr>
+                        <tbody>
+                            @for(var i = 0; i< Model.Items.Count; i++)
 							{
-								<tr>
-									<td>@(i + 1)</td>
-									<td>@Model.Items[i].Product.Name</td>
-									<td>@Model.Items[i].Amount</td>
-									<td>@Model.Items[i].Product.Cost</td>
-									<td>@Model.Items[i].Cost.ToString("0.00")</td>
-								</tr>
+                            <tr>
+                                <td>@(i + 1)</td>
+                                <td>@Model.Items[i].Product.Name</td>
+                                <td>@Model.Items[i].Amount</td>
+                                <td>@Model.Items[i].Product.Cost</td>
+                                <td>@Model.Items[i].Cost.ToString("0.00")</td>
+                            </tr>
 							}
-						</tbody>
-					</thread>
-				</table>
-				<h5 class="card-title">Общая стоимость заказа: @Model.Cost ₽</h5>
-			</div>
-		</div>
-	</div>
+                        </tbody>
+                    </thread>
+                </table>
+                <h5 class="card-title">Общая стоимость заказа: @Model.Cost.ToString("0.00") ₽</h5>
+            </div>
+        </div>
+    </div>
 </div>

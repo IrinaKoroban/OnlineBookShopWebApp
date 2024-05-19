@@ -3,59 +3,68 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnLineShop.Db;
+using OnLineShop.Db.Interfaces;
 using OnLineShop.Db.Models;
 using OnLineShopWebApplication.Areas.Admin.Models;
 using OnLineShopWebApplication.Helpers;
+using OnLineShopWebApplication.Models;
 
 namespace OnLineShopWebApplication.Areas.Admin.Controllers
 {
-	[Area(Constants.AdminRoleName)]
-	[Authorize(Roles = Constants.AdminRoleName)]
+    [Area(Constants.AdminRoleName)]
+    [Authorize(Roles = Constants.AdminRoleName)]
     public class UserController : Controller
-	{
-		private readonly UserManager<User> userManager;
-		private readonly RoleManager<IdentityRole> roleManager;
+    {
+        private readonly UserManager<User> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
         private readonly IMapper mapper;
+        private readonly IUserDeliveryDataRepository userDeliveryDataRepository;
 
-		public UserController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper)
-		{
-			this.userManager = userManager;
-			this.roleManager = roleManager;
-			this.mapper = mapper;
-		}
+        public UserController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper, IUserDeliveryDataRepository userDeliveryDataRepository)
+        {
+            this.userManager = userManager;
+            this.roleManager = roleManager;
+            this.mapper = mapper;
+            this.userDeliveryDataRepository = userDeliveryDataRepository;
+        }
 
-		public IActionResult Index()
-		{
-			var users = userManager.Users.ToList();
-            var userViewModel = mapper.Map<List<UserViewModel>>(users);
-			return View(userViewModel);
-		}
-		public async Task<IActionResult> DetailAsync(string email)
-		{
-			var user = await userManager.FindByEmailAsync(email);
-			return View(mapper.Map<UserViewModel>(user));
-		}
+        public async Task<IActionResult> Index()
+        {
+            var userDeliveryData = await userDeliveryDataRepository.GetAllAsync();
+            return View(mapper.Map<List<UserDeliveryDataViewModel>>(userDeliveryData));
+        }
+        public async Task<IActionResult> DetailAsync(string email)
+        {
+            //var user = await userManager.FindByEmailAsync(email);
+            var userDeliveryData = await userDeliveryDataRepository.TryGetByEmailAsync(email);
+            var detailsViewModel = mapper.Map<UserDeliveryDataViewModel>(userDeliveryData);
+
+            return View(detailsViewModel);
+        }
         public IActionResult Add()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAsync(UserViewModel newUser)
+        public async Task<IActionResult> AddAsync(AddUserViewModel newUser)
         {
-            if (await userManager.FindByNameAsync(newUser.Name) != null)
+            if (await userManager.FindByEmailAsync(newUser.Email) != null)
             {
                 ModelState.AddModelError("", "Такой пользователь уже есть");
             }
             if (ModelState.IsValid)
             {
-                User user = new User { Email = newUser.Email, UserName = newUser.Name, PhoneNumber = newUser.Phone };
+                User user = new User { Email = newUser.Email };
                 // добавляем пользователя
                 var result = await userManager.CreateAsync(user, newUser.Password);
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(user, Constants.UserRoleName);
-					return RedirectToAction(nameof(Index));
+                    // здесь нужно добавить в userDeliveryDataRepository новую информацию!!!
+                    await userDeliveryDataRepository.AddAsync(mapper.Map<UserDeliveryData>(newUser));
+
+                    return RedirectToAction(nameof(Index));
                 }
                 else
                 {
@@ -69,8 +78,19 @@ namespace OnLineShopWebApplication.Areas.Admin.Controllers
         }
         public async Task<IActionResult> EditAsync(string email)
         {
-			var user = await userManager.FindByEmailAsync(email);
-            return View(user);
+            var userDeliveryData = await userDeliveryDataRepository.TryGetByEmailAsync(email);
+
+            return View(mapper.Map<UserDeliveryDataViewModel>(userDeliveryData));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditAsync(UserDeliveryDataViewModel userDeliveryDataViewModel)
+        {
+            var userDeliveryData = mapper.Map<UserDeliveryData>(userDeliveryDataViewModel);
+
+            await userDeliveryDataRepository.UpdateAsync(userDeliveryData);
+
+            return View(nameof(Index));
         }
 
         [HttpPost]
@@ -93,13 +113,13 @@ namespace OnLineShopWebApplication.Areas.Admin.Controllers
         }
 
         public IActionResult ChangePassword(string email)
-		{
-			var changePassword = new ChangePasswordViewModel()
-			{
-				Email = email,
-			};
-			return View(changePassword);
-		}
+        {
+            var changePassword = new ChangePasswordViewModel()
+            {
+                Email = email,
+            };
+            return View(changePassword);
+        }
 
         public async Task<IActionResult> EditRightsAsync(string email)
         {
@@ -130,10 +150,10 @@ namespace OnLineShopWebApplication.Areas.Admin.Controllers
             return RedirectToAction(nameof(EditRightsAsync));
         }
         public async Task<IActionResult> Remove(string email)
-		{
-			var user = await userManager.FindByEmailAsync(email);
-			await userManager.DeleteAsync(user);
-			return RedirectToAction(nameof(Index));
-		}
-	}
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            await userManager.DeleteAsync(user);
+            return RedirectToAction(nameof(Index));
+        }
+    }
 }

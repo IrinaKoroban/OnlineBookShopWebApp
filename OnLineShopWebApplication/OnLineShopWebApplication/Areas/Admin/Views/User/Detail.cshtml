@@ -1,42 +1,43 @@
-﻿@model UserViewModel
+﻿@using OnLineShop.Db
+@model UserDeliveryDataViewModel
 
 <form method="post">
-	<div class="container">
-		<div class="row">
-			<div class="col-2">
-				@await Html.PartialAsync("AdminMenu")
-			</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-2">
+                @await Html.PartialAsync("AdminMenu")
+            </div>
 
-			<div class="col-10">
+            <div class="col-10">
 
-				<table class="table">
+                <table class="table">
 
-					<tr>
-						<td>Email</td>
-						<td>@Model.Email</td>
-					</tr>
-					<tr>
-						<td>ФИО</td>
-						<td>@Model.Name</td>
-					</tr>
-					<tr>
-						<td>Телефон</td>
-						<td>@Model.Phone</td>
-					</tr>
-				</table>
+                    <tr>
+                        <td>Email</td>
+                        <td>@Model.Email</td>
+                        <td>@Model.Name</td>
+                        <td>@Model.Phone</td>
+                        <td>@Model.Address</td>
+                    </tr>
+                </table>
 
-				<div class="dropdown">
-					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-						Действия
-					</button>
-					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-						<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="ChangePassword" asp-route-email="@Model.Email">Смена пароля</a></li>
-						<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-email="@Model.Email">Редактирование данных</a></li>
-						<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="EditRights" asp-route-email="@Model.Email">Права доступа</a></li>
-						<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Remove" asp-route-email="@Model.Email">Удалить</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+                @if (!User.IsInRole(Constants.AdminRoleName))
+				{
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Действия
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="ChangePassword" asp-route-email="@Model.Email">Смена пароля</a></li>
+                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-email="@Model.Email">Редактирование данных</a></li>
+
+                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="EditRights" asp-route-email="@Model.Email">Права доступа</a></li>
+                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Remove" asp-route-email="@Model.Email">Удалить</a></li>
+
+                    </ul>
+                </div>
+				}
+            </div>
+        </div>
+    </div>
 </form>

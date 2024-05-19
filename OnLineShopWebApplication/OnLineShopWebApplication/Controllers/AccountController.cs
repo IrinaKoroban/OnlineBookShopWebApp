@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using OnLineShop.Db;
+using OnLineShop.Db.Data;
 using OnLineShop.Db.Interfaces;
 using OnLineShop.Db.Models;
 using OnLineShopWebApplication.Areas.Admin.Models;
@@ -19,18 +21,20 @@ namespace OnLineShopWebApplication.Controllers
         private readonly SignInManager<User> signInManager;
         private readonly IMapper mapper;
         private readonly ImagesProvider imagesProvider;
-		private readonly IOrdersRepository ordersRepository;
+        private readonly IOrdersRepository ordersRepository;
+        private readonly IUserDeliveryDataRepository userDeliveryDataRepository;
 
-		public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, ImagesProvider imagesProvider, IOrdersRepository ordersRepository)
-		{
-			this.userManager = userManager;
-			this.signInManager = signInManager;
-			this.mapper = mapper;
-			this.imagesProvider = imagesProvider;
-			this.ordersRepository = ordersRepository;
-		}
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, ImagesProvider imagesProvider, IOrdersRepository ordersRepository, IUserDeliveryDataRepository userDeliveryDataRepository)
+        {
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.mapper = mapper;
+            this.imagesProvider = imagesProvider;
+            this.ordersRepository = ordersRepository;
+            this.userDeliveryDataRepository = userDeliveryDataRepository;
+        }
 
-		public IActionResult Login(string returnUrl)
+        public IActionResult Login(string returnUrl)
         {
             return View(new LoginViewModel() { ReturnUrl = returnUrl ?? "/Home" });
         }
@@ -64,16 +68,19 @@ namespace OnLineShopWebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User { Email = register.Email, UserName = register.Email, PhoneNumber = register.Phone };
-                
+                User user = new() { Email = register.Email, UserName = register.Email };
+
                 // добавляем пользователя
                 var result = await userManager.CreateAsync(user, register.Password);
 
-				if (result.Succeeded)
+
+                if (result.Succeeded)
                 {
                     // установка куки
                     await signInManager.SignInAsync(user, false);
                     await userManager.AddToRoleAsync(user, Constants.UserRoleName);
+                    var userDelivelyData = new UserDeliveryData { Email = register.Email };
+                    await userDeliveryDataRepository.AddAsync(userDelivelyData);
                     return Redirect(register.ReturnUrl ?? "/Home");
                 }
                 else
@@ -93,84 +100,104 @@ namespace OnLineShopWebApplication.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
-		[Authorize]
-		public async Task<IActionResult> DetailsAsync(string email)
+        [Authorize]
+        public async Task<IActionResult> DetailsAsync(string email)
         {
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
-            var userDetailsViewModel = mapper.Map<UserDetailsViewModel>(user);
-			return View(userDetailsViewModel);
+            //var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var userDeliveryData = await userDeliveryDataRepository.TryGetByEmailAsync(email);
+            return View(mapper.Map<UserDeliveryDataViewModel>(userDeliveryData));
         }
 
-        public async Task<IActionResult> EditAsync(string userId)
+        // проверить!!! UDDVM
+        [Authorize]
+        public async Task<IActionResult> EditAsync(string userEmail)
         {
-            var user = await userManager.FindByIdAsync(userId);
-            var userViewModel = mapper.Map<UserViewModel>(user);
-            return View(userViewModel);
+            var userDeliveryData = await userDeliveryDataRepository.TryGetByEmailAsync(userEmail);
+            if (userDeliveryData == null)
+            {
+                var user = await userManager.FindByEmailAsync(userEmail);
+                return View(new UserDeliveryDataViewModel { Email = user.Email });
+            }
+            var userDeliveryDataViewModel = mapper.Map<UserDeliveryDataViewModel>(userDeliveryData);
+            return View(userDeliveryDataViewModel);
         }
-		[Authorize]
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> EditAsync(UserDeliveryDataViewModel userDeliveryDataViewModel)
+        {
+            var userDeliveryData = mapper.Map<UserDeliveryData>(userDeliveryDataViewModel);
+            await userDeliveryDataRepository.UpdateAsync(userDeliveryData);
+            return View("Details", mapper.Map<UserDeliveryDataViewModel>(userDeliveryData));
+        }
+
+        [Authorize]
         public async Task<IActionResult> OrdersAsync(string email)
         {
             var orders = await ordersRepository.TryGetByUserEmailAsync(email);
-			var ordersViewModel = mapper.Map<List<OrderViewModel>>(orders);
-			return View(ordersViewModel);
-		}
-		[Authorize]
-		public async Task<IActionResult> OrderDetailAsync(Guid orderId)
+            var ordersViewModel = mapper.Map<List<OrderViewModel>>(orders);
+            return View(ordersViewModel);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> OrderDetailAsync(Guid orderId)
         {
             var order = await ordersRepository.TryGetByIdAsync(orderId);
             var orderViewModel = mapper.Map<OrderViewModel>(order);
             return View(orderViewModel);
         }
 
-		[Authorize]
-		public IActionResult ChangePassword(string email)
-		{
-			var changePassword = new ChangePasswordViewModel()
-			{
-				Email = email,
-			};
-			return View(changePassword);
-		}
+        [Authorize]
+        public IActionResult ChangePassword(string email)
+        {
+            var changePassword = new ChangePasswordViewModel()
+            {
+                Email = email,
+            };
+            return View(changePassword);
+        }
 
-		[Authorize]
-		[HttpPost]
-		public async Task<IActionResult> ChangePasswordAsync(ChangePasswordViewModel changePassword)
-		{
-			//if (changePassword.Email == changePassword.NewPassword)
-			//{
-			//	ModelState.AddModelError("", "Имя пользователя и пароль не должны совпадать");
-			//}
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ChangePasswordAsync(ChangePasswordViewModel changePassword)
+        {
+            if (changePassword.Email == changePassword.NewPassword)
+            {
+                ModelState.AddModelError("", "Имя пользователя и пароль не должны совпадать");
+            }
 
-			if (ModelState.IsValid)
-			{
-				var user = await userManager.FindByEmailAsync(changePassword.Email);
-				var newHashPassword = userManager.PasswordHasher.HashPassword(user, changePassword.NewPassword);
-				user.PasswordHash = newHashPassword;
-				await userManager.UpdateAsync(user);
-				return RedirectToAction(nameof(Details));
-			}
-			return RedirectToAction(nameof(ChangePassword));
-		}
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(changePassword.Email);
+                var newHashPassword = userManager.PasswordHasher.HashPassword(user, changePassword.NewPassword);
+                user.PasswordHash = newHashPassword;
+                await userManager.UpdateAsync(user);
+
+                return View("ChangePasswordSuccess");
+            }
+            return RedirectToAction(nameof(ChangePassword));
+        }
 
 
+        //[HttpPost]
+        //public async Task<IActionResult> EditAsync(UserDetailsViewModel userViewModel)
+        //{
+        //if (userViewModel.UploadedFiles != null && !ModelState.IsValid)
+        //{
+        //    return View(userViewModel);
+        //}
+        //if (userViewModel.UploadedFiles != null)
+        //{
+        //    var addedImagesPaths = imagesProvider.SafeFiles(userViewModel.UploadedFiles, ImageFolders.Products);
+        //    userViewModel.ImagesPaths = addedImagesPaths;
+        //}
 
-		//[HttpPost]
-		//public async Task<IActionResult> EditAsync(EditUserViewModel userViewModel)
-		//{
-		//    if (userViewModel.UploadedFiles != null && !ModelState.IsValid)
-		//    {
-		//        return View(userViewModel);
-		//    }
-		//    if (userViewModel.UploadedFiles != null)
-		//    {
-		//        var addedImagesPaths = imagesProvider.SafeFiles(userViewModel.UploadedFiles, ImageFolders.Products);
-		//        userViewModel.ImagesPaths = addedImagesPaths;
-		//    }
-		//    var user = mapper.Map<User>(userViewModel);
-		//    await userManager.UpdateAsync(user, userViewModel.UploadedFiles);
-		//    return RedirectToAction(nameof(Index));
-		//}
-
-	}
-	}
+        //    var user = mapper.Map<User>(userViewModel);
+        //    var userDeliveryData = mapper.Map<UserDeliveryData>(userViewModel);
+        //    await userManager.UpdateAsync(user);
+        //    await userDeliveryDataRepository.UpdateAsync(userDeliveryData);
+        //    return RedirectToAction(nameof(Details));
+        //}
+    }
+}
 

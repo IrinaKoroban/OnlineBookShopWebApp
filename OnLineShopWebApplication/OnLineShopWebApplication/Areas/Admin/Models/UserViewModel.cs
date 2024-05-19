@@ -19,13 +19,14 @@ namespace OnLineShopWebApplication.Areas.Admin.Models
         [Phone]
         public string Phone { get; set; }
 
+        [Required(ErrorMessage = "Адрес не должен быть пустым")]
+        [Phone]
+        public string Address { get; set; }
+
         [Required(ErrorMessage = "Пароль не должен быть пустым.")]
         [StringLength(25, ErrorMessage = "Пароль должен быть от 5 до 25 символов.", MinimumLength = 5)]
         public string Password { get; set; }
 
-        public UserViewModel()
-        {
-
-        }
+        public UserViewModel() { }
     }
 }

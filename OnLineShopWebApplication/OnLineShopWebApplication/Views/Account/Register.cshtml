@@ -15,27 +15,6 @@
                 <span asp-validation-for="Email"></span>
             </div>
         </div>
-        <div class="row justify-content-md-center">
-            <div class="col-3">
-                <label asp-for="UserName"></label>
-                <input class="form-control col-xs-3" type="text" placeholder="ФИО" asp-for="UserName">
-                <span asp-validation-for="UserName"></span>
-            </div>
-        </div>
-        <div class="row justify-content-md-center">
-            <div class="col-3">
-                <label asp-for="Phone"></label>
-                <input class="form-control col-xs-3" type="text" placeholder="Телефон" asp-for="Phone">
-                <span asp-validation-for="Phone"></span>
-            </div>
-        </div>
-        <div class="row justify-content-md-center">
-            <div class="col-3">
-                <label asp-for="Address"></label>
-                <input class="form-control col-xs-3" type="text" placeholder="Адрес" asp-for="Address">
-                <span asp-validation-for="Address"></span>
-            </div>
-        </div>
 
         <div class="row justify-content-md-center">
             <div class="col-3">
@@ -54,9 +33,9 @@
         <div class="row justify-content-md-center">
             <div class="col-3">
                 <br><button type="submit" class="form-control btn btn-secondary" asp-area=""
-                                                                                asp-controller="Account"
-                                                                                asp-action="Register"
-                                                                                asp-route-ReturnUrl="@Model.ReturnUrl">
+                            asp-controller="Account"
+                            asp-action="Register"
+                            asp-route-ReturnUrl="@Model.ReturnUrl">
                     Зарегистрироваться
                 </button>
             </div>

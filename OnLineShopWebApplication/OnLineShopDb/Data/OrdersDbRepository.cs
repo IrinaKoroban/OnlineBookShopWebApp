@@ -15,7 +15,7 @@ namespace OnLineShop.Db.Data
 
         public async Task<Order> TryGetByIdAsync(Guid orderId)
         {
-            return await databaseContext.Orders.Include(x => x.userDeliveryData).Include(x => x.Items).ThenInclude(x => x.Product).FirstOrDefaultAsync(x => x.Id == orderId);
+            return await databaseContext.Orders.Include(x => x.UserDeliveryData).Include(x => x.Items).ThenInclude(x => x.Product).FirstOrDefaultAsync(x => x.Id == orderId);
         }
         public async Task AddAsync(Order newOrder)
         {
@@ -24,7 +24,7 @@ namespace OnLineShop.Db.Data
         }
         public async Task<List<Order>> GetAllAsync()
         {
-            return await databaseContext.Orders.Include(x => x.userDeliveryData).Include(x => x.Items).ThenInclude(x => x.Product).ToListAsync();
+            return await databaseContext.Orders.Include(x => x.UserDeliveryData).Include(x => x.Items).ThenInclude(x => x.Product).ToListAsync();
         }
 
         public async Task UpdateStatusAsync(Guid orderId, OrderStatus Status)
@@ -33,10 +33,10 @@ namespace OnLineShop.Db.Data
             existingOrder.Status = Status;
             await databaseContext.SaveChangesAsync();
         }
-		public async Task<List<Order>> TryGetByUserEmailAsync(string userEmail)
-		{
-			var orders = databaseContext.Orders.Include(x => x.userDeliveryData).Include(x => x.Items).ThenInclude(x => x.Product).Where(x => x.userEmail == userEmail);
-            return orders.ToList();
-		}
-	}
+        public async Task<List<Order>> TryGetByUserEmailAsync(string userEmail)
+        {
+            var orders = databaseContext.Orders.Include(x => x.UserDeliveryData).Include(x => x.Items).ThenInclude(x => x.Product).Where(x => x.UserDeliveryData.Email == userEmail).ToList();
+            return orders;
+        }
+    }
 }

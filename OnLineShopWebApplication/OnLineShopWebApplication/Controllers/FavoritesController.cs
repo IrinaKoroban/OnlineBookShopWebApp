@@ -14,16 +14,16 @@ namespace OnLineShopWebApplication.Controllers
     {
         private readonly IProductsRepository productRepository;
         private readonly IFavoritesRepository favoritesRepository;
-		private readonly IMapper mapper;
+        private readonly IMapper mapper;
 
-		public FavoritesController(IProductsRepository productRepository, IFavoritesRepository favoritesRepository, IMapper mapper)
-		{
-			this.productRepository = productRepository;
-			this.favoritesRepository = favoritesRepository;
-			this.mapper = mapper;
-		}
+        public FavoritesController(IProductsRepository productRepository, IFavoritesRepository favoritesRepository, IMapper mapper)
+        {
+            this.productRepository = productRepository;
+            this.favoritesRepository = favoritesRepository;
+            this.mapper = mapper;
+        }
 
-		public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             var favorites = await favoritesRepository.GetAllAsync(User.Identity.Name);
             var favoriresViewModel = mapper.Map<List<ProductViewModel>>(favorites);
@@ -41,9 +41,9 @@ namespace OnLineShopWebApplication.Controllers
             await favoritesRepository.RemoveAsync(productId, User.Identity.Name);
             return RedirectToAction(nameof(Index));
         }
-        public async Task<IActionResult> ClearAsync(string userId)
+        public async Task<IActionResult> ClearAsync()
         {
-            await favoritesRepository.ClearAsync(userId);
+            await favoritesRepository.ClearAsync(User.Identity.Name);
             return RedirectToAction(nameof(Index));
         }
     }

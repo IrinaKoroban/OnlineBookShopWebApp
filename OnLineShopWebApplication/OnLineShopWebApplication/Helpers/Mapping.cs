@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis;
 using OnLineShop.Db.Models;
 using OnLineShopWebApplication.Areas.Admin.Models;
@@ -25,26 +26,19 @@ namespace OnLineShopWebApplication.Helpers
             };
         }
 
-
+        // Только для ToProductDb
         public static BookCategory ToBookCategory(this BookCategoryViewModel category)
         {
-            switch (category.ToString())
+            return category.ToString() switch
             {
-                case "ArtisticLiterature":
-                    return BookCategory.ArtisticLiterature;
-                case "ScientificLiterature":
-                    return BookCategory.ScientificLiterature;
-                case "ChildrenAndParents":
-                    return BookCategory.ChildrenAndParents;
-                case "ForeignLanguages":
-                    return BookCategory.ForeignLanguages;
-                case "Training":
-                    return BookCategory.Training;
-                case "Programming":
-                    return BookCategory.Programming;
-                default:
-                    return BookCategory.Unknown;
-            }
+                "ArtisticLiterature" => BookCategory.ArtisticLiterature,
+                "ScientificLiterature" => BookCategory.ScientificLiterature,
+                "ChildrenAndParents" => BookCategory.ChildrenAndParents,
+                "ForeignLanguages" => BookCategory.ForeignLanguages,
+                "Training" => BookCategory.Training,
+                "Programming" => BookCategory.Programming,
+                _ => BookCategory.Unknown,
+            };
         }
     }
 }
