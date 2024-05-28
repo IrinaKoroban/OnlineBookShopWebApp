@@ -36,9 +36,9 @@
 
                                 <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Details" asp-route-email="@User.Identity.Name">Аккаунт</a></li>
                                 <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Orders" asp-route-email="@User.Identity.Name">Заказы</a></li>
- 
+
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Выход</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Выход</a></li>
                             </ul>
                         </div>
 
@@ -51,7 +51,6 @@
                                     Администрирование
                                 </a>
                             </li>
-
                         }
                     }
                     else

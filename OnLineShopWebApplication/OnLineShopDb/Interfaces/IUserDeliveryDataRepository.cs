@@ -8,6 +8,6 @@ namespace OnLineShop.Db.Interfaces
         Task AddAsync(UserDeliveryData userDeliveryData);
         Task UpdateAsync(UserDeliveryData userDeliveryData);
         Task<List<UserDeliveryData>> GetAllAsync();
-		Task<UserDeliveryData> CreateNewAsync(string userEmail);
-	}
+        Task<UserDeliveryData> CreateNewAsync(string userEmail);
+    }
 }

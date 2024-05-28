@@ -1,43 +1,55 @@
 ﻿@model OrderViewModel
 
 <form method="post">
-    <div class="container">
-        <div class="row">
-            <div class="col-2">
-                @await Html.PartialAsync("AdminMenu")
-            </div>
+	<div class="container">
+		<div class="row">
+			<div class="col-2">
+				@await Html.PartialAsync("AdminMenu")
+			</div>
 
-            <div class="col-10">
+			<div class="col-10">
 
-                <table class="table">
-                    <thread>
-                        <tr>
-                            <th>Дата</th>
-                            <th>Статус</th>
-                            <th>Пользователь</th>
-                            <th>Адрес</th>
-                            <th>Телефон</th>
-                            <th>Сумма, ₽</th>
-                        </tr>
-                        <tbody>
-                            <tr>
-                                <td>@Model.DateTime</td>
-                                <td>
-                                    <select asp-for="@Model.Status" asp-items="@Html.GetEnumSelectList<OrderStatusViewModel>()" class="form-control">
-                                    </select>
-                                </td>
-                                <td>@Model.UserDeliveryData.Name</td>
-                                <td>@Model.UserDeliveryData.Address</td>
-                                <td>@Model.UserDeliveryData.Phone</td>
-                                <td>@Model.Cost.ToString("0.00")</td>
-                            </tr>
-                        </tbody>
-                    </thread>
-                </table>
+				<h3>Детали заказа:</h3>
+				<div class="col-3">
+					<p class="card-title">ФИО покупателя: @Model.UserDeliveryData.Name</p>
+					<p class="card-title">Статус заказа: <select asp-for="@Model.Status" asp-items="@Html.GetEnumSelectList<OrderStatusViewModel>()" class="form-control"></select></p>
+				</div>
 
-                <button class="btn btn-outline-success" type="submit" asp-area="Admin" asp-controller="Order" asp-action="UpdateStatus" asp-route-orderId="@Model.Id">Cохранить</button>
-                <button class="btn btn-outline-secondary" type="submit" asp-area="Admin" asp-controller="Order" asp-action="Index">Назад</button>
-            </div>
-        </div>
-    </div>
+				<div class="col-3">
+					<p class="card-text">Адрес: @Model.UserDeliveryData.Address</p>
+					<p class="card-text">Телефон: @Model.UserDeliveryData.Phone</p>
+					<p class="card-text">Email: @Model.UserDeliveryData.Email</p>
+				</div>
+				<div>
+					<table class="table">
+						<thread>
+							<tr>
+								<th>№</th>
+								<th>Продукт</th>
+								<th>Количество</th>
+								<th>Стоимость одного товара, ₽</th>
+								<th>Сумма, ₽</th>
+
+							</tr>
+							<tbody>
+								@for (var i = 0; i < Model.Items.Count; i++)
+								{
+									<tr>
+										<td>@(i + 1)</td>
+										<td>@Model.Items[i].Product.Name</td>
+										<td>@Model.Items[i].Amount</td>
+										<td>@Model.Items[i].Product.Cost</td>
+										<td>@Model.Items[i].Cost.ToString("0.00")</td>
+									</tr>
+								}
+							</tbody>
+						</thread>
+					</table>
+					<h5 class="card-title">Общая стоимость заказа: @Model.Cost.ToString("0.00") ₽</h5>
+				</div>
+				<button class="btn btn-outline-success" type="submit" asp-area="Admin" asp-controller="Order" asp-action="UpdateStatus" asp-route-orderId="@Model.Id">Cохранить</button>
+				<button class="btn btn-outline-secondary" type="submit" asp-area="Admin" asp-controller="Order" asp-action="Index">Назад</button>
+			</div>
+		</div>
+	</div>
 </form>

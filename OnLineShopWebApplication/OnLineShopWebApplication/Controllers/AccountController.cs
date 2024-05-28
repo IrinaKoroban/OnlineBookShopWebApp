@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
-using AutoMapper.Configuration.Annotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using OnLineShop.Db;
-using OnLineShop.Db.Data;
 using OnLineShop.Db.Interfaces;
 using OnLineShop.Db.Models;
 using OnLineShopWebApplication.Areas.Admin.Models;
@@ -105,6 +101,11 @@ namespace OnLineShopWebApplication.Controllers
         {
             //var user = await userManager.FindByNameAsync(User.Identity.Name);
             var userDeliveryData = await userDeliveryDataRepository.TryGetByEmailAsync(email);
+            if (userDeliveryData == null)
+            {
+                userDeliveryData = await userDeliveryDataRepository.CreateNewAsync(email);
+            }
+
             return View(mapper.Map<UserDeliveryDataViewModel>(userDeliveryData));
         }
 

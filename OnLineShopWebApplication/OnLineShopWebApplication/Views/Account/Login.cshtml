@@ -1,13 +1,13 @@
 ﻿@model LoginViewModel
 
-<form method="post" >
+<form method="post">
 
     <div style="text-align:center">
         <h2>Вход</h2>
     </div>
 
     <div class="text-danger font-weigth-bolt" asp-validation-summary="ModelOnly"></div>
-    <input type="hidden" name="returnUrl" value="@Model.ReturnUrl"/>
+    <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
 
     <div class="row justify-content-md-center">
         <div class="col-3">
@@ -32,11 +32,11 @@
         </div>
     </div>
     <div class="row justify-content-md-center">
-        <div class="col-3" >
+        <div class="col-3">
             <button type="submit" class="form-control btn btn-secondary" asp-area="" asp-controller="Account" asp-action="Login">Войти</button>
             <a class="btn btn-outline-secondary border-1 m-3" asp-area="" asp-controller="Account" asp-action="Register">Регистрация нового пользователя</a>
         </div>
     </div>
 </form>
 
-    
+

@@ -1,28 +1,28 @@
 ﻿@model List<OrderViewModel>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-2">
-                @await Html.PartialAsync("UserMenu")
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+            @await Html.PartialAsync("UserMenu")
+        </div>
 
-            <div class="col-10">
+        <div class="col-10">
 
-                <h4>Список заказов</h4>
-                <table class="table">
-                    <thread>
-                        <tr>
-                            <th>№</th>
-                            <th>Дата</th>
-                            <th>Статус</th>
-                            <th>Адрес</th>
-                            <th>Телефон</th>
-                            <th>Почта</th>
-                            <th>Сумма, ₽</th>
-                            <th></th>
-                        </tr>
-                        <tbody>
-                            @for (int i = 0; i < Model.Count; i++)
+            <h4>Список заказов</h4>
+            <table class="table">
+                <thread>
+                    <tr>
+                        <th>№</th>
+                        <th>Дата</th>
+                        <th>Статус</th>
+                        <th>Адрес</th>
+                        <th>Телефон</th>
+                        <th>Почта</th>
+                        <th>Сумма, ₽</th>
+                        <th></th>
+                    </tr>
+                    <tbody>
+                        @for (int i = 0; i < Model.Count; i++)
                         {
                             <tr>
                                 <td>@(i + 1)</td>
@@ -35,9 +35,9 @@
                                 <td><a class="btn btn-outline-info border-1" asp-area="" asp-controller="Account" asp-action="OrderDetail" asp-route-orderId="@Model[i].Id" role="button">Подробнее</a></td>
                             </tr>
                         }
-                        </tbody>
-                    </thread>
-                </table>
-            </div>
+                    </tbody>
+                </thread>
+            </table>
         </div>
     </div>
+</div>

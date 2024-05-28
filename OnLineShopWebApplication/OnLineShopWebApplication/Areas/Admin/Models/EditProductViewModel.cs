@@ -6,7 +6,7 @@ namespace OnLineShopWebApplication.Areas.Admin.Models
 {
     public class EditProductViewModel
     {
-        public Guid Id { get; set; } 
+        public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Автор должен быть заполнен.")]
         public string Author { get; set; }
@@ -21,19 +21,19 @@ namespace OnLineShopWebApplication.Areas.Admin.Models
         [Required(ErrorMessage = "Описание должно быть заполнено.")]
         public string Description { get; set; }
 
-		[Required(ErrorMessage = "Издательсвто должно быть заполнено.")]
-		public string PublishingHouse { get; set; }
+        [Required(ErrorMessage = "Издательсвто должно быть заполнено.")]
+        public string PublishingHouse { get; set; }
 
-		[Required(ErrorMessage = "Категория должна быть заполнена.")]
-		public BookCategoryViewModel Category { get; set; }
+        [Required(ErrorMessage = "Категория должна быть заполнена.")]
+        public BookCategoryViewModel Category { get; set; }
 
-		[Required(ErrorMessage = "ISBN должен быть заполнен.")]
-		public string ISBN { get; set; }
+        [Required(ErrorMessage = "ISBN должен быть заполнен.")]
+        public string ISBN { get; set; }
 
-		[Required(ErrorMessage = "Год выпуска должен быть заполнен")]
-		public int YearRelease { get; set; }
+        [Required(ErrorMessage = "Год выпуска должен быть заполнен")]
+        public int YearRelease { get; set; }
 
-		public string[] ImagesPaths { get; set; }
+        public string[] ImagesPaths { get; set; }
         public IFormFile[]? UploadedFiles { get; set; }
     }
 }
