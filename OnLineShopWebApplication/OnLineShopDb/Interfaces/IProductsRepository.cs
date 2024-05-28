@@ -13,5 +13,7 @@ namespace OnLineShop.Db.Interfaces
         Task UpdateAsync(Product product, IFormFile[] images);
         Task RestoreAsync(Guid Id);
         Task RemoveAsync(Guid Id);
+        Task AddAmountAsync(Guid Id);
+        Task ReduceAmountAsync(Guid Id);
     }
 }

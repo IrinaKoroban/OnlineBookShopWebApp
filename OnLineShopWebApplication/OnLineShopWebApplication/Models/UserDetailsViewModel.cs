@@ -7,19 +7,18 @@ namespace OnLineShopWebApplication.Models
 {
     public class UserDetailsViewModel
     {
-		[Required(ErrorMessage = "Почта должна быть заполнена.")]
-		public string Email { get; set; }
+        [Required(ErrorMessage = "Почта должна быть заполнена.")]
+        public string Email { get; set; }
 
-		//[Required(ErrorMessage = "Имя должно быть заполнено.")]
-		//public string Name { get; set; }
+        [Required(ErrorMessage = "Имя должно быть заполнено.")]
+        public string Name { get; set; }
 
-		[Required(ErrorMessage = "Телефон должен быть заполнен.")]
-		public string Phone { get; set; }
+        [Required(ErrorMessage = "Телефон должен быть заполнен.")]
+        public string Phone { get; set; }
 
+        [Required(ErrorMessage = "Адрес должен быть заполнен.")]
+        public string Address { get; set; }
 
-		//public UserDetailsViewModel()
-  //      {
-
-  //      }
+        public UserDetailsViewModel() { }
     }
 }

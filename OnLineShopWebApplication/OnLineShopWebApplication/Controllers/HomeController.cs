@@ -24,21 +24,22 @@ namespace OnLineShopWebApplication.Controllers
         {
             var products = await productRepository.GetAllAsync();
             var productsViewModel = mapper.Map<List<ProductViewModel>>(products);
-			return View(productsViewModel);
+            return View(productsViewModel);
         }
-		public async Task<IActionResult> About()
-		{
-			return View();
-		}
 
-		[HttpPost]
+        public async Task<IActionResult> About()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public async Task<IActionResult> SearchAsync(string productName)
         {
             if (productName != null)
             {
                 var products = await productRepository.TryGetByNameAsync(productName);
-				var productsViewModel = mapper.Map<List<ProductViewModel>>(products);
-				return View("Index", productsViewModel);
+                var productsViewModel = mapper.Map<List<ProductViewModel>>(products);
+                return View(productsViewModel);
             }
             return RedirectToAction(nameof(Index));
         }

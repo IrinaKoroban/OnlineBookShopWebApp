@@ -7,9 +7,9 @@
             <img class="" style=" width: 100%; height: 30rem; object-fit: contain" src=@Model.ImagePath class="card-img-top" alt="Обложка книги">
             @for (var i = 1; i < Model.Images.Length; i++)
             {
-                <div class="col-lg-4 col-md-4 col-xl-4 thumb">
-                    <img class="" style=" width: 100%; height: 10rem; object-fit: contain" src="@Model.Images[i]" alt="Изображение товара">
-                </div>
+            <div class="col-lg-4 col-md-4 col-xl-4 thumb">
+                <img class="" style=" width: 100%; height: 10rem; object-fit: contain" src="@Model.Images[i]" alt="Изображение товара">
+            </div>
             }
         </div>
     </div>
@@ -24,7 +24,14 @@
             <p class="card-text">Год издания: @Model.YearRelease</p>
             <p class="card-text">Категория: @EnumHelper.GetDisplayName(Model.Category)</p>
 
+            @if (!Model.IsDeleted && Model.Amount > 0)
+            {
             <a class="btn btn-outline-success border-1" asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@Model.Id" role="button">Добавить в корзину</a>
+            }
+            else
+            {
+            <h6 class="text-secondary">Нет в продаже</h6>
+            }
             <a class="btn btn-outline-secondary border-1" asp-area="" asp-controller="Home" asp-action="Index" role="button">Продолжить покупки</a>
         </div>
     </div>

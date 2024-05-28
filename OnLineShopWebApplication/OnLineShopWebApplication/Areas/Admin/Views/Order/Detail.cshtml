@@ -1,43 +1,43 @@
 ﻿@model OrderViewModel
 
 <form method="post">
-	<div class="container">
-		<div class="row">
-			<div class="col-2">
-				@await Html.PartialAsync("AdminMenu")
-			</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-2">
+                @await Html.PartialAsync("AdminMenu")
+            </div>
 
-			<div class="col-10">
+            <div class="col-10">
 
-				<table class="table">
-					<thread>
-						<tr>
-							<th>Дата</th>
-							<th>Статус</th>
-							<th>Пользователь</th>
-							<th>Адрес</th>
-							<th>Телефон</th>
-							<th>Сумма, ₽</th>
-						</tr>
-						<tbody>
-							<tr>
-								<td>@Model.DateTime</td>
-								<td>
-									<select asp-for="@Model.Status" asp-items="@Html.GetEnumSelectList<OrderStatusViewModel>()" class="form-control">
-									</select>
-								</td>
-								<td>@Model.Name</td>
-								<td>@Model.Address</td>
-								<td>@Model.Phone</td>
-								<td>@Model.Cost.ToString("0.00")</td>
-							</tr>
-						</tbody>
-					</thread>
-				</table>
+                <table class="table">
+                    <thread>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Статус</th>
+                            <th>Пользователь</th>
+                            <th>Адрес</th>
+                            <th>Телефон</th>
+                            <th>Сумма, ₽</th>
+                        </tr>
+                        <tbody>
+                            <tr>
+                                <td>@Model.DateTime</td>
+                                <td>
+                                    <select asp-for="@Model.Status" asp-items="@Html.GetEnumSelectList<OrderStatusViewModel>()" class="form-control">
+                                    </select>
+                                </td>
+                                <td>@Model.UserDeliveryData.Name</td>
+                                <td>@Model.UserDeliveryData.Address</td>
+                                <td>@Model.UserDeliveryData.Phone</td>
+                                <td>@Model.Cost.ToString("0.00")</td>
+                            </tr>
+                        </tbody>
+                    </thread>
+                </table>
 
-				<button class="btn btn-outline-success" type="submit" asp-area="Admin" asp-controller="Order" asp-action="UpdateStatus" asp-route-orderId="@Model.Id">Cохранить</button>
-				<button class="btn btn-outline-secondary" type="submit" asp-area="Admin" asp-controller="Order" asp-action="Index">Назад</button>
-			</div>
-		</div>
-	</div>
+                <button class="btn btn-outline-success" type="submit" asp-area="Admin" asp-controller="Order" asp-action="UpdateStatus" asp-route-orderId="@Model.Id">Cохранить</button>
+                <button class="btn btn-outline-secondary" type="submit" asp-area="Admin" asp-controller="Order" asp-action="Index">Назад</button>
+            </div>
+        </div>
+    </div>
 </form>

@@ -1,8 +1,8 @@
-﻿@model UserViewModel
+﻿@model UserDeliveryDataViewModel
 
 <div class="row">
     <div class="col-2">
-        @await Html.PartialAsync("AdminMenu")
+        @await Html.PartialAsync("UserMenu")
     </div>
 
     <div class="col-8">
@@ -26,6 +26,14 @@
                             <label asp-for="Phone"></label>
                             <input class="form-control col-xs-3" type="text" placeholder="Телефон" asp-for="Phone">
                             <span asp-validation-for="Phone"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <label asp-for="Address"></label>
+                            <input class="form-control col-xs-3" type="text" placeholder="Адрес" asp-for="Address">
+                            <span asp-validation-for="Address"></span>
                         </div>
                     </div>
 

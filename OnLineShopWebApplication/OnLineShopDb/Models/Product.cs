@@ -20,15 +20,16 @@ namespace OnLineShop.Db.Models
         public List<Image> Images { get; set; }
         public List<CartItem> CartItems { get; set; }
 
+        public int Amount { get; set; }
         public bool IsDeleted { get; set; }
 
-        public Product() 
-        { 
+        public Product()
+        {
             CartItems = new List<CartItem>();
             Images = new List<Image>();
         }
 
-        public Product(Guid id, string name, string author, decimal cost, string description, string publishingHouse, BookCategory category, string isbn, int yearRelease) : this()
+        public Product(Guid id, string name, string author, decimal cost, string description, string publishingHouse, BookCategory category, string isbn, int yearRelease, int amount) : this()
         {
             Id = id;
             Name = name;
@@ -39,6 +40,7 @@ namespace OnLineShop.Db.Models
             Category = category;
             ISBN = isbn;
             YearRelease = yearRelease;
+            Amount = amount;
         }
     }
 }

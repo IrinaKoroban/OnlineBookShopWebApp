@@ -8,15 +8,6 @@ namespace OnLineShopWebApplication.Models
         [EmailAddress(ErrorMessage = "Некорректный адрес.")]
         public string Email { get; set; }
 
-		[Required(ErrorMessage = "Необходмио ввести номер телефона")]
-		public string Phone { get; set; }
-
-		[Required(ErrorMessage = "Необходмио ввести адрес")]
-		public string Address { get; set; }
-
-		[Required(ErrorMessage = "Необходмио ввести фамилию и имя")]
-		public string UserName { get; set; }
-
         [Required(ErrorMessage = "Пароль не должен быть пустым.")]
         [DataType(DataType.Password)]
         [StringLength(25, ErrorMessage = "Пароль должен быть от 5 до 25 символов.", MinimumLength = 5)]

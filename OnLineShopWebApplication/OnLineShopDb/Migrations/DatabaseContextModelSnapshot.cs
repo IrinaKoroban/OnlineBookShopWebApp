@@ -17,7 +17,7 @@ namespace OnLineShop.Db.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -75,7 +75,7 @@ namespace OnLineShop.Db.Migrations
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("UserEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -158,7 +158,7 @@ namespace OnLineShop.Db.Migrations
                         {
                             Id = new Guid("e170bf17-7e6b-434a-8ca5-ed4942857596"),
                             ProductId = new Guid("46f56303-c86e-4302-ae88-9210f2b9d383"),
-                            Url = "/images/Products/planetarium.jpg"
+                            Url = "/images/Products/planetarium.webp"
                         },
                         new
                         {
@@ -170,7 +170,7 @@ namespace OnLineShop.Db.Migrations
                         {
                             Id = new Guid("d65b5d85-4807-4e25-9fa4-771f0616358e"),
                             ProductId = new Guid("9fe6eb6d-446b-4e81-9a38-b23d396a0ddb"),
-                            Url = "/images/Products/okeanarium.jpg"
+                            Url = "/images/Products/okeanarium.webp"
                         });
                 });
 
@@ -186,16 +186,12 @@ namespace OnLineShop.Db.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("userDeliveryDataId")
+                    b.Property<Guid>("UserDeliveryDataId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("userEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("userDeliveryDataId");
+                    b.HasIndex("UserDeliveryDataId");
 
                     b.ToTable("Orders");
                 });
@@ -205,6 +201,9 @@ namespace OnLineShop.Db.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
 
                     b.Property<string>("Author")
                         .IsRequired()
@@ -247,6 +246,7 @@ namespace OnLineShop.Db.Migrations
                         new
                         {
                             Id = new Guid("239fa757-a3cd-475b-b76b-889b78fb0ff3"),
+                            Amount = 2,
                             Author = "Джон Триммер",
                             Category = "Training",
                             Cost = 1000m,
@@ -260,6 +260,7 @@ namespace OnLineShop.Db.Migrations
                         new
                         {
                             Id = new Guid("86903a15-590b-4b14-bead-3ab140e31fc9"),
+                            Amount = 200,
                             Author = "С. С. Стэнли",
                             Category = "Training",
                             Cost = 1000m,
@@ -273,6 +274,7 @@ namespace OnLineShop.Db.Migrations
                         new
                         {
                             Id = new Guid("c75d304a-8400-46fd-ba7e-f2ad9e02b4c7"),
+                            Amount = 10,
                             Author = "Биг Бум",
                             Category = "Training",
                             Cost = 10000m,
@@ -286,6 +288,7 @@ namespace OnLineShop.Db.Migrations
                         new
                         {
                             Id = new Guid("23ad0815-e1c3-4822-8e35-7c0678afac48"),
+                            Amount = 50,
                             Author = "Дайна Тайминя",
                             Category = "Training",
                             Cost = 2000m,
@@ -299,6 +302,7 @@ namespace OnLineShop.Db.Migrations
                         new
                         {
                             Id = new Guid("62ae7045-bbe3-4da1-9f32-5710c74a8691"),
+                            Amount = 20,
                             Author = "Майкл Янг",
                             Category = "Training",
                             Cost = 3000m,
@@ -312,6 +316,7 @@ namespace OnLineShop.Db.Migrations
                         new
                         {
                             Id = new Guid("f3e9e6cc-4ed4-4569-8aa9-96fdc51b0c72"),
+                            Amount = 15,
                             Author = "Набоков Владимир Владимирович",
                             Category = "ArtisticLiterature",
                             Cost = 586m,
@@ -325,6 +330,7 @@ namespace OnLineShop.Db.Migrations
                         new
                         {
                             Id = new Guid("ffca2c5d-d828-45e8-ad7c-691a54dc140b"),
+                            Amount = 30,
                             Author = "Рейси Хелпс",
                             Category = "ArtisticLiterature",
                             Cost = 543m,
@@ -338,6 +344,7 @@ namespace OnLineShop.Db.Migrations
                         new
                         {
                             Id = new Guid("854ea48d-28f9-44b6-a4be-fd3afc36cb3b"),
+                            Amount = 1,
                             Author = "Филипп Паркерс",
                             Category = "Training",
                             Cost = 3000m,
@@ -351,6 +358,7 @@ namespace OnLineShop.Db.Migrations
                         new
                         {
                             Id = new Guid("46f56303-c86e-4302-ae88-9210f2b9d383"),
+                            Amount = 10,
                             Author = "Принджа Раман",
                             Category = "ScientificLiterature",
                             Cost = 999m,
@@ -364,6 +372,7 @@ namespace OnLineShop.Db.Migrations
                         new
                         {
                             Id = new Guid("810039c6-3bfc-48a1-b2ec-3463c0acdd78"),
+                            Amount = 8,
                             Author = "Пакстон Дженнифер",
                             Category = "ScientificLiterature",
                             Cost = 900m,
@@ -377,6 +386,7 @@ namespace OnLineShop.Db.Migrations
                         new
                         {
                             Id = new Guid("9fe6eb6d-446b-4e81-9a38-b23d396a0ddb"),
+                            Amount = 50,
                             Author = "Триник Лавдэй",
                             Category = "ScientificLiterature",
                             Cost = 900m,
@@ -389,58 +399,6 @@ namespace OnLineShop.Db.Migrations
                         });
                 });
 
-            modelBuilder.Entity("OnLineShop.Db.Models.User", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User");
-                });
-
             modelBuilder.Entity("OnLineShop.Db.Models.UserDeliveryData", b =>
                 {
                     b.Property<Guid>("Id")
@@ -448,15 +406,16 @@ namespace OnLineShop.Db.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -477,12 +436,7 @@ namespace OnLineShop.Db.Migrations
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("UserImages");
                 });
@@ -530,22 +484,13 @@ namespace OnLineShop.Db.Migrations
 
             modelBuilder.Entity("OnLineShop.Db.Models.Order", b =>
                 {
-                    b.HasOne("OnLineShop.Db.Models.UserDeliveryData", "userDeliveryData")
+                    b.HasOne("OnLineShop.Db.Models.UserDeliveryData", "UserDeliveryData")
                         .WithMany()
-                        .HasForeignKey("userDeliveryDataId")
+                        .HasForeignKey("UserDeliveryDataId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("userDeliveryData");
-                });
-
-            modelBuilder.Entity("OnLineShop.Db.Models.UserImage", b =>
-                {
-                    b.HasOne("OnLineShop.Db.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("User");
+                    b.Navigation("UserDeliveryData");
                 });
 
             modelBuilder.Entity("OnLineShop.Db.Models.Cart", b =>
