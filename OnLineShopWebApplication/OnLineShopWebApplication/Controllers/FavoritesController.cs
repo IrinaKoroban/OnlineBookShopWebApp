@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
-using OnLineShop.Db;
 using OnLineShop.Db.Interfaces;
-using OnLineShopWebApplication.Helpers;
 using OnLineShopWebApplication.Models;
 
 namespace OnLineShopWebApplication.Controllers

@@ -17,13 +17,13 @@ namespace OnLineShopWebApplication.Areas.Admin.Controllers
         private readonly IOrdersRepository ordersRepository;
         private readonly IMapper mapper;
 
-		public OrderController(IOrdersRepository ordersRepository, IMapper mapper)
-		{
-			this.ordersRepository = ordersRepository;
-			this.mapper = mapper;
-		}
+        public OrderController(IOrdersRepository ordersRepository, IMapper mapper)
+        {
+            this.ordersRepository = ordersRepository;
+            this.mapper = mapper;
+        }
 
-		public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             var orders = await ordersRepository.GetAllAsync();
             var ordersViewModel = mapper.Map<List<OrderViewModel>>(orders);
@@ -33,8 +33,8 @@ namespace OnLineShopWebApplication.Areas.Admin.Controllers
         public async Task<IActionResult> DetailAsync(Guid orderId)
         {
             var order = await ordersRepository.TryGetByIdAsync(orderId);
-			var ordersViewModel = mapper.Map<OrderViewModel>(order);
-			return View(ordersViewModel);
+            var ordersViewModel = mapper.Map<OrderViewModel>(order);
+            return View(ordersViewModel);
         }
         [HttpPost]
 

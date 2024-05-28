@@ -1,10 +1,10 @@
 ﻿@model List<ProductViewModel>
-    @{
+@{
     ViewData["Title"] = "Home Page";
-    }
+}
 
-    <div class="row row-cols-1 row-cols-md-4 g-2 m-1">
-        @foreach (var product in Model)
+<div class="row row-cols-1 row-cols-md-4 g-2 m-1">
+    @foreach (var product in Model)
     {
         <div class="col">
             <div class="card h-100">
@@ -20,11 +20,11 @@
                     <div class="btn-group">
                         @if (!product.IsDeleted && product.Amount > 0)
                         {
-                        <a class="btn btn-outline-success border-1" asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id" role="button">Добавить в корзину</a>
+                            <a class="btn btn-outline-success border-1" asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id" role="button">Добавить в корзину</a>
                         }
                         else
                         {
-                        <h6 class="text-secondary">Нет в продаже</h6>
+                            <h6 class="text-secondary">Нет в продаже</h6>
                         }
                         <a class="nav-link text-black" title="Добавить в избранное" asp-area="" asp-controller="Favorites" asp-action="Add" asp-route-productId="@product.Id">
                             <img src="/images/SiteDesign/favourites.png" width="20"
@@ -34,6 +34,5 @@
                 </div>
             </div>
         </div>
-
     }
-    </div>
+</div>

@@ -3,8 +3,8 @@
 namespace OnLineShopWebApplication.Areas.Admin.Models
 {
     public class ChangePasswordViewModel
-	{
-		public string Email { get; set; }
+    {
+        public string Email { get; set; }
 
         [Required(ErrorMessage = "Пароль не должен быть пустым.")]
         [DataType(DataType.Password)]

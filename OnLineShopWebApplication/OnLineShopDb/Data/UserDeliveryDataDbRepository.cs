@@ -48,10 +48,10 @@ namespace OnLineShop.Db.Data
         public async Task<UserDeliveryData> CreateNewAsync(string userEmail)
         {
             var userDeliveryData = new UserDeliveryData { Email = userEmail };
-			await databaseContext.AddAsync(userDeliveryData);
-			await databaseContext.SaveChangesAsync();
+            await databaseContext.AddAsync(userDeliveryData);
+            await databaseContext.SaveChangesAsync();
             return userDeliveryData;
         }
-	}
+    }
 }
 

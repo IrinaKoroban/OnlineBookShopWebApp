@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnLineShopWebApplication.Models;
 using System.Diagnostics;
-using OnLineShopWebApplication.Helpers;
 using OnLineShop.Db.Interfaces;
 using AutoMapper;
 
@@ -27,7 +26,7 @@ namespace OnLineShopWebApplication.Controllers
             return View(productsViewModel);
         }
 
-        public async Task<IActionResult> About()
+        public IActionResult About()
         {
             return View();
         }

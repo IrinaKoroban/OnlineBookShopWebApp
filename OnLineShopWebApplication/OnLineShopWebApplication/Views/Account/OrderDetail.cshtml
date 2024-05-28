@@ -27,16 +27,16 @@
 
                         </tr>
                         <tbody>
-                            @for(var i = 0; i< Model.Items.Count; i++)
-							{
-                            <tr>
-                                <td>@(i + 1)</td>
-                                <td>@Model.Items[i].Product.Name</td>
-                                <td>@Model.Items[i].Amount</td>
-                                <td>@Model.Items[i].Product.Cost</td>
-                                <td>@Model.Items[i].Cost.ToString("0.00")</td>
-                            </tr>
-							}
+                            @for (var i = 0; i < Model.Items.Count; i++)
+                            {
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td>@Model.Items[i].Product.Name</td>
+                                    <td>@Model.Items[i].Amount</td>
+                                    <td>@Model.Items[i].Product.Cost</td>
+                                    <td>@Model.Items[i].Cost.ToString("0.00")</td>
+                                </tr>
+                            }
                         </tbody>
                     </thread>
                 </table>

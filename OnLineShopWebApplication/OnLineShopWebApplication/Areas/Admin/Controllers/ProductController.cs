@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnLineShop.Db;
-using OnLineShop.Db.Data;
 using OnLineShop.Db.Interfaces;
 using OnLineShop.Db.Models;
 using OnLineShopWebApplication.Areas.Admin.Models;
@@ -100,6 +99,27 @@ namespace OnLineShopWebApplication.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // доделано!
+        public async Task<IActionResult> EditAmountAsync()
+        {
+            var products = await productsRepository.GetAllAsync();
+            var productsViewModel = mapper.Map<List<ProductViewModel>>(products);
+            return View(productsViewModel);
+        }
+
+        public async Task<IActionResult> AddAmountAsync(Guid productId)
+        {
+            await productsRepository.AddAmountAsync(productId);
+            return RedirectToAction("EditAmount");
+        }
+
+        public async Task<IActionResult> ReduceAmountAsync(Guid productId)
+        {
+            await productsRepository.ReduceAmountAsync(productId);
+            return RedirectToAction("EditAmount");
+        }
+
+
         // доделать удаление фото товара
         //public async Task<IActionResult> RemoveImage(Guid productId)
         //{
@@ -107,27 +127,5 @@ namespace OnLineShopWebApplication.Areas.Admin.Controllers
         //    var productViewModel = mapper.Map<RemoveImageViewModel>(product);
         //    return View(productViewModel);
         //}
-
-
-        public async Task<IActionResult> AddAmountAsync()
-        {
-            var products = await productsRepository.GetAllAsync();
-            var productsViewModel = mapper.Map<List<ProductViewModel>>(products);
-            return View(productsViewModel);
-        }
-
-        public async Task<IActionResult> AddAmount2Async(Guid productId)
-        {
-            await productsRepository.AddAmountAsync(productId);
-            return RedirectToAction(nameof(AddAmountAsync));
-        }
-
-        public async Task<IActionResult> ReduceAmountAsync(Guid productId)
-        {
-            await productsRepository.ReduceAmountAsync(productId);
-            return RedirectToAction(nameof(AddAmountAsync));
-        }
-
-
     }
 }

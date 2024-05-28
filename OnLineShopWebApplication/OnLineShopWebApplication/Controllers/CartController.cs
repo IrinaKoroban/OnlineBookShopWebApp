@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
-using OnLineShop.Db;
 using OnLineShop.Db.Interfaces;
-using OnLineShopWebApplication.Helpers;
 using OnLineShopWebApplication.Models;
-using System.Diagnostics;
 
 namespace OnLineShopWebApplication.Controllers
 {
@@ -15,16 +11,16 @@ namespace OnLineShopWebApplication.Controllers
     {
         private readonly IProductsRepository productRepository;
         private readonly ICartsRepository cartsRepository;
-		private readonly IMapper mapper;
+        private readonly IMapper mapper;
 
-		public CartController(IProductsRepository productRepository, ICartsRepository cartsRepository, IMapper mapper)
-		{
-			this.productRepository = productRepository;
-			this.cartsRepository = cartsRepository;
-			this.mapper = mapper;
-		}
+        public CartController(IProductsRepository productRepository, ICartsRepository cartsRepository, IMapper mapper)
+        {
+            this.productRepository = productRepository;
+            this.cartsRepository = cartsRepository;
+            this.mapper = mapper;
+        }
 
-		public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             var cart = await cartsRepository.TryGetByUserIdAsync(User.Identity.Name);
             var cartViewModel = mapper.Map<CartViewModel>(cart);
@@ -41,7 +37,8 @@ namespace OnLineShopWebApplication.Controllers
             await cartsRepository.DecreaseAmountAsync(productId, User.Identity.Name);
             return RedirectToAction(nameof(Index));
         }
-        public async Task<IActionResult> ClearAsync(int userId) 
+
+        public async Task<IActionResult> ClearAsync()
         {
             await cartsRepository.ClearAsync(User.Identity.Name);
             return RedirectToAction(nameof(Index));

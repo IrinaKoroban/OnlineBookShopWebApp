@@ -1,27 +1,29 @@
 ﻿@model List<ProductViewModel>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-2">
-                @await Html.PartialAsync("AdminMenu")
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+            @await Html.PartialAsync("AdminMenu")
+        </div>
 
-            <div class="col-10">
-                <h4>Список продуктов</h4>
-                <a class="btn btn-outline-secondary border-1" asp-area="Admin" asp-controller="Product" asp-action="Add" role="button">Добавить книгу</a>
-                <table class="table">
-                    <thread>
-                        <tr>
-                            <th>№</th>
-                            <th>Автор</th>
-                            <th colspan="2">Название</th>
-                            <th>Цена, ₽</th>
-                            <th>На складе</th>
-                            <th colspan="4"></th>
-                        </tr>
-                        <tbody>
-                            @for (int i = 0; i < Model.Count; i++)
-						{
+        <div class="col-10">
+            <h4>Список продуктов</h4>
+            <a class="btn btn-outline-secondary border-1" asp-area="Admin" asp-controller="Product" asp-action="Add" role="button">Добавить книгу</a>
+            <a class="btn btn-outline-success border-1" asp-area="Admin" asp-controller="Product" asp-action="EditAmount" role="button">Перейти к редактированию количества товара</a>
+
+            <table class="table">
+                <thread>
+                    <tr>
+                        <th>№</th>
+                        <th>Автор</th>
+                        <th colspan="2">Название</th>
+                        <th>Цена, ₽</th>
+                        <th>На складе</th>
+                        <th colspan="4"></th>
+                    </tr>
+                    <tbody>
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
                             <tr>
                                 <td>@(i + 1)</td>
                                 <td>@Model[i].Author</td>
@@ -29,7 +31,6 @@
                                     <a class="link-dark" asp-area="Admin" asp-controller="Product" asp-action="Detail" asp-route-productId="@Model[i].Id">
                                         <img src="@Model[i].ImagePath" class="img" style=" width: 100%; height: 3rem; object-fit: contain;" alt="Обложка">
                                     </a>
-
                                 </td>
                                 <td>
                                     <a class="link-dark" asp-area="Admin" asp-controller="Product" asp-action="Detail" asp-route-productId="@Model[i].Id">@Model[i].Name</a>
@@ -48,22 +49,22 @@
                                 </td>
 
                                 @if (Model[i].IsDeleted)
-								{
-                                <td class="text-danger">Не продаётся</td>
-                                <td><a class="btn btn-outline-success border-1" asp-area="Admin" asp-controller="Product" asp-action="Restore" asp-route-productId="@Model[i].Id" role="button">Восстановить</a></td>
-								}
-								else
-								{
-                                <td class="text-success">В продаже</td>
-                                <td>
-                                    <a class="btn btn-outline-warning border-1" asp-area="Admin" asp-controller="Product" asp-action="Remove" asp-route-productId="@Model[i].Id" role="button">Убрать с продажи</a>
-                                </td>
-								}
+                                {
+                                    <td class="text-danger">Не продаётся</td>
+                                    <td><a class="btn btn-outline-success border-1" asp-area="Admin" asp-controller="Product" asp-action="Restore" asp-route-productId="@Model[i].Id" role="button">Восстановить</a></td>
+                                }
+                                else
+                                {
+                                    <td class="text-success">В продаже</td>
+                                    <td>
+                                        <a class="btn btn-outline-warning border-1" asp-area="Admin" asp-controller="Product" asp-action="Remove" asp-route-productId="@Model[i].Id" role="button">Убрать с продажи</a>
+                                    </td>
+                                }
                             </tr>
-						}
-                        </tbody>
-                    </thread>
-                </table>
-            </div>
+                        }
+                    </tbody>
+                </thread>
+            </table>
         </div>
     </div>
+</div>

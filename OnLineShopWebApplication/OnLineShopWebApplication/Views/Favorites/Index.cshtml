@@ -1,9 +1,9 @@
 ﻿@model List<ProductViewModel>
-    @{
+@{
     ViewData["Title"] = "Home Page";
-    }
+}
 
-    @if (Model == null)
+@if (Model == null)
 {
     <h5>У вас нет избранных товаров</h5>
 }
@@ -13,31 +13,31 @@ else
     <div class="row">
         @foreach (var product in Model)
         {
-        <div class="col-3">
-            <div class="card h-100">
-                <a asp-area="" asp-controller="Product" asp-action="Index" asp-route-productId="@product.Id">
-                    <img src="@product.ImagePath" class="" style="width: 70%; height: 7rem; object-fit: contain; margin-top: 10px " alt="Обложка книги">
-                </a>
-                <div class="card-body">
-                    <p class="card-text"><a class="nav-link text-secondary" asp-area="" asp-controller="Product" asp-action="Index" asp-route-productId="@product.Id">@product.Author</a></p>
-                    <p class="card-text"><a class="nav-link text-black" asp-area="" asp-controller="Product" asp-action="Index" asp-route-productId="@product.Id">@product.Name</a></p>
-                    <p class="card-text text-muted ps-4 fs-4 fw-semibold">@product.Cost ₽</p>
-                </div>
-                <div class="card-footer dis" style=" background: none; border-top: none; display:flex; justify-content:center">
-                    <div class="btn-group">
-                        @if (!product.IsDeleted && product.Amount > 0)
+            <div class="col-3">
+                <div class="card h-100">
+                    <a asp-area="" asp-controller="Product" asp-action="Index" asp-route-productId="@product.Id">
+                        <img src="@product.ImagePath" class="" style="width: 70%; height: 7rem; object-fit: contain; margin-top: 10px " alt="Обложка книги">
+                    </a>
+                    <div class="card-body">
+                        <p class="card-text"><a class="nav-link text-secondary" asp-area="" asp-controller="Product" asp-action="Index" asp-route-productId="@product.Id">@product.Author</a></p>
+                        <p class="card-text"><a class="nav-link text-black" asp-area="" asp-controller="Product" asp-action="Index" asp-route-productId="@product.Id">@product.Name</a></p>
+                        <p class="card-text text-muted ps-4 fs-4 fw-semibold">@product.Cost ₽</p>
+                    </div>
+                    <div class="card-footer dis" style=" background: none; border-top: none; display:flex; justify-content:center">
+                        <div class="btn-group">
+                            @if (!product.IsDeleted && product.Amount > 0)
                             {
-                        <a class="btn btn-outline-success border-1" asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id" role="button">Добавить в корзину</a>
+                                <a class="btn btn-outline-success border-1" asp-area="" asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id" role="button">Добавить в корзину</a>
                             }
                             else
                             {
-                        <h5>Нет в продаже</h5>
+                                <h5>Нет в продаже</h5>
                             }
-                        <a class="nav-link" asp-area="" asp-controller="Favorites" asp-action="Remove" asp-route-productId="@product.Id" role="button">Удалить из избранного</a>
+                            <a class="nav-link" asp-area="" asp-controller="Favorites" asp-action="Remove" asp-route-productId="@product.Id" role="button">Удалить из избранного</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         }
     </div>
 }

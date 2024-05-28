@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using OnLineShop.Db;
 using OnLineShop.Db.Interfaces;
 using OnLineShop.Db.Models;
-using OnLineShopWebApplication.Helpers;
 using OnLineShopWebApplication.Models;
-using System.Runtime.ConstrainedExecution;
 
 namespace OnLineShopWebApplication.Controllers
 {
@@ -32,12 +28,12 @@ namespace OnLineShopWebApplication.Controllers
 
             if (userDeliveryData == null)
             {
-				userDeliveryData = await userDeliveryDataRepository.CreateNewAsync(userEmail);
+                userDeliveryData = await userDeliveryDataRepository.CreateNewAsync(userEmail);
 
-				return View(mapper.Map<UserDetailsViewModel>(userDeliveryData));
-			}
+                return View(mapper.Map<UserDetailsViewModel>(userDeliveryData));
+            }
 
-            if(userDeliveryData.Name == null)
+            if (userDeliveryData.Name == null)
             {
                 RedirectToAction("CreateNewOrderAsync", userDeliveryData);
             }
